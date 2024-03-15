@@ -2,7 +2,9 @@
 require "./computerAlgorithm.rb"
 require "./additionalMethods.rb"
 
-positions = [1, 2, 3, 4, 5, 6, 7, 8, 9] #positions to be printed out on grid
+defValue = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+positions = defValue #positions to be printed out on grid
 
 winningCombs = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]
 #The values above are positions in the array, not on the actual grid
@@ -49,24 +51,33 @@ while true
     print "Enter a number on the field you want to fill: "
     playerMove = gets.chomp!
     puts ""
-    phase = 1 if playerMove.downcase == "stop"
+    if playerMove.downcase == "stop"
+      phase = 1 
+      positions = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    end
     next if playerMove.downcase == "stop"
     
     
 
     while true
-      if integer_check(playerMove) == false || playerMove.to_i > 9 || playerMove.to_i < 1
+      if playerMove.downcase == "stop" 
+        phase = 1 
+        positions = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        break
+      elsif integer_check(playerMove) == false || playerMove.to_i > 9 || playerMove.to_i < 1
         puts "Invalid entry. Type in number between 1 and 9(inclusive)."
       elsif checkIfTaken(positions, playerMove.to_i)
         puts "This position is already filled in! Choose another position."
+      
       else
         break
       end
       print "Enter a number on the field you want to fill: "
       playerMove = gets.chomp!
       puts ""
+      
     end 
-    
+    next if playerMove.downcase == "stop"
 
     positions[playerMove.to_i - 1] = "X"
     takenPosCounter += 1
