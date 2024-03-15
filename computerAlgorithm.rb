@@ -1,10 +1,50 @@
 #file with algorithm for the "Against computer" mode
+#The computer will use O, player - X
 
-winningCombs = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 4, 7], [2, 5, 8], [3, 6, 9], [1, 5, 9], [3, 5, 7]]
 
-def compAl
-  attr_accessor = :array
+arrayVote = []
+9.times { arrayVote.push(0) }
 
-  def initialize(array)
-    @array
+
+
+
+def compAl(arrayGame, winningCombs)
+=begin
+  attr_accessor = :arrayGame
+
+  def initialize(arrayGame)
+    self.arrayGame = arrayGame
+  end
+=end
+  playerWin = closeToWin(arrayGame, winningCombs)
+  if playerWin != false
+    return playerWin
+  end
+
+
+end
+
+
+
+def closeToWin(arrayOne, wc) #Checks if the player is about to win
+  closeCall = 0
+  wc.each {|y|
+    y.each{ |z|
+      if arrayOne[z] == "X"
+        closeCall += 1
+      elsif arrayOne[z] == "O"
+        closeCall -= 1
+      end
+
+    }
+    if closeCall == 2
+      y.each{ |z|
+        return z if arrayOne[z] != "X"
+      }
+    end
+    closeCall = 0
+  }
+  
+
+  return false
 end
