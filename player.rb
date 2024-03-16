@@ -1,3 +1,6 @@
+#player class, that stores the amount of wins, losses and ties
+#each player has a different username that are stored in names hash in game.rb
+
 class Player
   attr_accessor :name, :won, :lost, :tie
 

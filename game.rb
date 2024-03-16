@@ -1,4 +1,5 @@
 # the main file for the game
+
 require "./computerAlgorithm.rb"
 require "./additionalMethods.rb"
 require "./player.rb"
@@ -30,20 +31,35 @@ takenPosCounter = 0 #counts the filled positions on the field. If the number rea
 
 namesHash = Hash.new
 
+namePO = "stop"
 
+while namePO.downcase == "stop" or namePO == "no_name_player_pppppppppppppppppppppppp"
 
-
-puts "Welcome to the game of TicTacToe"
-print "Enter your username to start: "
-namePO = gets.chomp!
-namesHash[namePO.to_sym] = Player.new(namePO)
-namePT = "no_name_player_pppppppppppppppppppppppp"
+  puts "Welcome to the game of TicTacToe"
+  print "Enter your username to start: "
+  namePO = gets.chomp!
+  unless namePO.downcase == "stop" || namePO == "no_name_player_pppppppppppppppppppppppp"
+    namesHash[namePO.to_sym] = Player.new(namePO) 
+  else
+    puts "Invalid username. Choose a different name."
+  end
+end
+namePT = "no_name_player_pppppppppppppppppppppppp" #name for the computer that is not available for the player
 namesHash[namePT.to_sym] = Player.new(namePT)
 
-""
+#namePO - namePlayerOne       namePT - namePlayerTwo
+
+puts ""
+
+
 #----------------------------------------------------------------------
+
+
+
+
+
 while true
-  puts "#{positions[0]}---#{positions[1]}---#{positions[2]}\n#{positions[3]}---#{positions[4]}---#{positions[5]}\n#{positions[6]}---#{positions[7]}---#{positions[8]}"
+  puts "#{positions[0]}---#{positions[1]}---#{positions[2]}\n#{positions[3]}---#{positions[4]}---#{positions[5]}\n#{positions[6]}---#{positions[7]}---#{positions[8]}" unless phase == 1 || phase == 7 || phase == 4
   
   winner = checkIfWon(positions, winningCombs, mode, namePO, namePT)
 
@@ -63,7 +79,7 @@ while true
         namesHash[namePO.to_sym].changeStats(2)
       end
     end
-    puts "Press enter to continue."
+    puts "Press enter to come back to main menu."
     takenPosCounter = 0
     ent = gets
     positions = [1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -71,7 +87,11 @@ while true
     clear_command_line
   end
 
+
+
 #----------------------------------------------------------------------
+
+
 
   if phase == 1 # phase1 - main screen
     
@@ -96,10 +116,17 @@ while true
       phase = 7
     end
     clear_command_line
+
+
+
 #----------------------------------------------------------------------
 
+
+
+
   elsif phase == 2 # phase2 - player's move
-    print "Enter a number on the field you want to fill: "
+    puts "You have X, computer has O."
+    print 'Enter a number on the field you want to fill(enter "stop" to come back to main menu.): '
     playerMove = gets.chomp!
     puts ""
     if playerMove.downcase == "stop"
@@ -137,24 +164,40 @@ while true
     puts ""
     phase = 3
     clear_command_line
+
+
+
 #----------------------------------------------------------------------
+
+
 
   elsif phase == 3 # phase3 - computer's move
     positions[compAl(positions, winningCombs)] = "O"
     takenPosCounter += 1
     phase = 2
     clear_command_line
+
+
 #----------------------------------------------------------------------
+
+
 
   elsif phase == 4 # phase4 - to add new player
     print "Enter the username of the second player: "
     namePT = gets.chomp!
     puts ""
-
-    if namePT == namePO
-      puts "This is a username of the first player!\nEnter a different username: "
-      namePT = gets.chomp!
-    end
+    while true
+      if namePT == namePO
+        puts "This is a username of the first player!\nEnter a different username: "
+        namePT = gets.chomp!
+      
+      elsif namePT.downcase == "stop" || namePT == "no_name_player_pppppppppppppppppppppppp"
+        puts "Invalid username. Choose a different name."
+        namePT = gets.chomp!
+      else
+        break
+      end
+    end 
     if namesHash.include?(namePT.to_sym) == false
       namesHash[namePT.to_sym] = Player.new(namePT)
     end
@@ -162,11 +205,14 @@ while true
     phase = rand(5..6)
     clear_command_line
 
+
 #----------------------------------------------------------------------
+
+
 
   elsif phase == 5 #phase5 - player1 move
     puts "#{namePO}'s move."
-    print "Enter a number on the field you want to fill: "
+    print 'Enter a number on the field you want to fill(enter "stop" to come back to main menu.): '
     playerMove = gets.chomp!
     puts ""
     if playerMove.downcase == "stop"
@@ -204,11 +250,15 @@ while true
     puts ""
     phase = 6
     clear_command_line
+
+
 #----------------------------------------------------------------------
+
+
 
   elsif phase == 6 #phase6 - player2 move
     puts "#{namePT}'s move."
-    print "Enter a number on the field you want to fill: "
+    print 'Enter a number on the field you want to fill(enter "stop" to come back to main menu.): '
     playerMove = gets.chomp!
     puts ""
     if playerMove.downcase == "stop"
@@ -246,18 +296,35 @@ while true
     puts ""
     phase = 5
     clear_command_line
+
+
 #----------------------------------------------------------------------
 
+
+
   elsif phase == 7 #phase7 - checking statistics
-    print "Enter the username of the player you want to check: "
+    print 'Enter the username of the player you want to check(enter "stop" to come back to main menu.): '
     playerCheck = gets.chomp!
     puts ""
 
+    if playerCheck.downcase == "stop"
+      phase = 1 
+      clear_command_line
+    end
+
     while namesHash.include?(playerCheck.to_sym) == false
+      if playerCheck.downcase == "stop"
+        phase = 1 
+        clear_command_line
+        break
+      end
       print "This user didn't play TicTacToe!\nEnter a different username: "
       playerCheck = gets.chomp!
       puts ""
+      
     end
+    next if playerCheck.downcase == "stop"
+    
     namesHash[playerCheck.to_sym].seeStats
     puts "Press enter to come back to main menu."
     backMenu = gets

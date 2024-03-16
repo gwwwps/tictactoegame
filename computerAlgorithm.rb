@@ -74,7 +74,7 @@ def chooseTheMove(array, winArray) #Chooses the best move for a computer
 
 end
 
-def checkTwoOs(wc, av, a) #checks if computer is close to winning
+def checkTwoOs(wc, av, a) #checks if computer is close to winning, so it can choose the 
   counter = 0
   wc.each { |x|
     x.each {|y|
