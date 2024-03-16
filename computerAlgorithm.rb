@@ -1,5 +1,5 @@
 #file with algorithm for the "Against computer" mode
-#The computer will use O, player - X
+#The computer will use "O", player - "X"
 
 
 
@@ -91,7 +91,7 @@ def checkTwoOs(wc, av, a) #checks if computer is close to winning
   return av
 end
 
-def checkTheBiggest(array)
+def checkTheBiggest(array) #finds the position in the array with the biggst value
   bestPosition = 0
   for i in 1..8
       if array[i] > array[bestPosition] 
