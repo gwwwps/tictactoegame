@@ -37,20 +37,31 @@ puts "Welcome to the game of TicTacToe"
 print "Enter your username to start: "
 namePO = gets.chomp!
 namesHash[namePO.to_sym] = Player.new(namePO)
-namePT = ""
+namePT = "no_name_player_pppppppppppppppppppppppp"
+namesHash[namePT.to_sym] = Player.new(namePT)
 
 ""
 #----------------------------------------------------------------------
 while true
   puts "#{positions[0]}---#{positions[1]}---#{positions[2]}\n#{positions[3]}---#{positions[4]}---#{positions[5]}\n#{positions[6]}---#{positions[7]}---#{positions[8]}"
   
+  winner = checkIfWon(positions, winningCombs, mode, namePO, namePT)
 
-
-  if checkIfWon(positions, winningCombs, mode, namePO, namePT) != false || (takenPosCounter == 9 && checkIfWon(positions, winningCombs, mode, namePO, namePT) == false)
-    if takenPosCounter == 9 && checkIfWon(positions, winningCombs, mode, namePO, namePT) == false
+  if winner != false || (takenPosCounter == 9 && winner == false)
+    winner = checkIfWon(positions, winningCombs, mode, namePO, namePT)
+    if takenPosCounter == 9 && winner == false
       puts "It's a tie!"
+      namesHash[namePO.to_sym].changeStats(3)
+      namesHash[namePT.to_sym].changeStats(3)
     else
-      puts "#{checkIfWon(positions, winningCombs, mode, namePO, namePT)} won!"
+      puts "#{winner} won!"
+      if winner == namePO
+        namesHash[namePO.to_sym].changeStats(1)
+        namesHash[namePT.to_sym].changeStats(2)
+      elsif winner == namePT
+        namesHash[namePT.to_sym].changeStats(1)
+        namesHash[namePO.to_sym].changeStats(2)
+      end
     end
     puts "Press enter to continue."
     takenPosCounter = 0
@@ -75,9 +86,11 @@ while true
     if modeChoose == "1" #agaist computer
       phase = 2
       mode = 1
+      namePT = "no_name_player_pppppppppppppppppppppppp"
     elsif modeChoose == "2" #against player
       phase = 4
       mode = 2
+      
     elsif modeChoose == "3" #stats screen
       phase = 7
     end
@@ -227,7 +240,19 @@ while true
 #----------------------------------------------------------------------
 
   elsif phase == 7 #phase7 - checking statistics
+    print "Enter the username of the player you want to check: "
+    playerCheck = gets.chomp!
+    puts ""
 
+    while namesHash.include?(playerCheck.to_sym) == false
+      print "This user didn't play TicTacToe!\nEnter a different username: "
+      playerCheck = gets.chomp!
+      puts ""
+    end
+    namesHash[playerCheck.to_sym].seeStats
+    puts "Press enter to come back to main menu."
+    backMenu = gets
+    phase = 1
   end  
 #----------------------------------------------------------------------
   

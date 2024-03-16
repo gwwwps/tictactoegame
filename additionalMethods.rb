@@ -22,7 +22,7 @@ def checkIfWon (array, winArray, modeC, po, pt) #check if somebody already won
         countC += 1
       end
     }
-    return "You" if countP == 3 && modeC == 1
+    return po if countP == 3 && modeC == 1
     return "Computer" if countC == 3 && modeC == 1
     return po if countP == 3 && modeC == 2
     return pt if countC == 3 && modeC == 2
