@@ -22,6 +22,8 @@ phases of the game.
 7 - check stats screen
 =end
 
+mode = 0
+
 takenPosCounter = 0 #counts the filled positions on the field. If the number reaches 9 and nobody won the game stops
 
 # randPhase [5, 6] #to randomly choose who is going first
@@ -33,8 +35,9 @@ namesHash = Hash.new
 
 puts "Welcome to the game of TicTacToe"
 print "Enter your username to start: "
-nameN = gets.chomp!
-namesHash[nameN.to_sym] = Player.new(nameN)
+namePO = gets.chomp!
+namesHash[namePO.to_sym] = Player.new(namePO)
+namePT = ""
 
 ""
 #----------------------------------------------------------------------
@@ -43,11 +46,11 @@ while true
   
 
 
-  if checkIfWon(positions, winningCombs) != false || (takenPosCounter == 9 && checkIfWon(positions, winningCombs) == false)
-    if takenPosCounter == 9 && checkIfWon(positions, winningCombs) == false
+  if checkIfWon(positions, winningCombs, mode, namePO, namePT) != false || (takenPosCounter == 9 && checkIfWon(positions, winningCombs, mode, namePO, namePT) == false)
+    if takenPosCounter == 9 && checkIfWon(positions, winningCombs, mode, namePO, namePT) == false
       puts "It's a tie!"
     else
-      puts "#{checkIfWon(positions, winningCombs)} won!"
+      puts "#{checkIfWon(positions, winningCombs, mode, namePO, namePT)} won!"
     end
     puts "Press enter to continue."
     takenPosCounter = 0
@@ -71,8 +74,10 @@ while true
 
     if modeChoose == "1" #agaist computer
       phase = 2
+      mode = 1
     elsif modeChoose == "2" #against player
       phase = 4
+      mode = 2
     elsif modeChoose == "3" #stats screen
       phase = 7
     end
@@ -113,6 +118,7 @@ while true
 
     positions[playerMove.to_i - 1] = "X"
     takenPosCounter += 1
+    puts ""
     phase = 3
 
 #----------------------------------------------------------------------
@@ -126,16 +132,103 @@ while true
 
   elsif phase == 4 # phase4 - to add new player
     print "Enter the username of the second player: "
-    nameP = gets.chomp!
+    namePT = gets.chomp!
     puts ""
 
-    if nameP == nameN
+    if namePT == namePO
       puts "This is a username of the first player!\nEnter a different username: "
-      nameP = gets.chomp!
+      namePT = gets.chomp!
     end
-    if namesHash.include?(nameP.to_sym) == false
-      namesHash[nameP.to_sym] = Player.new(nameP)
+    if namesHash.include?(namePT.to_sym) == false
+      namesHash[namePT.to_sym] = Player.new(namePT)
     end
+    puts "#{namePO} will have X's, #{namePT} will have O's."
     phase = rand(5..6)
+
+#----------------------------------------------------------------------
+
+  elsif phase == 5 #phase5 - player1 move
+    puts "#{namePO}'s move."
+    print "Enter a number on the field you want to fill: "
+    playerMove = gets.chomp!
+    puts ""
+    if playerMove.downcase == "stop"
+      phase = 1 
+      positions = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    end
+    next if playerMove.downcase == "stop"
+    
+    
+
+    while true
+      if playerMove.downcase == "stop" 
+        phase = 1 
+        positions = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        break
+      elsif integer_check(playerMove) == false || playerMove.to_i > 9 || playerMove.to_i < 1
+        puts "Invalid entry. Type in number between 1 and 9(inclusive)."
+      elsif checkIfTaken(positions, playerMove.to_i)
+        puts "This position is already filled in! Choose another position."
+      
+      else
+        break
+      end
+      print "Enter a number on the field you want to fill: "
+      playerMove = gets.chomp!
+      puts ""
+      
+    end 
+    next if playerMove.downcase == "stop"
+
+    positions[playerMove.to_i - 1] = "X"
+    takenPosCounter += 1
+    puts ""
+    phase = 6
+
+#----------------------------------------------------------------------
+
+  elsif phase == 6 #phase6 - player2 move
+    puts "#{namePT}'s move."
+    print "Enter a number on the field you want to fill: "
+    playerMove = gets.chomp!
+    puts ""
+    if playerMove.downcase == "stop"
+      phase = 1 
+      positions = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    end
+    next if playerMove.downcase == "stop"
+    
+    
+
+    while true
+      if playerMove.downcase == "stop" 
+        phase = 1 
+        positions = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        break
+      elsif integer_check(playerMove) == false || playerMove.to_i > 9 || playerMove.to_i < 1
+        puts "Invalid entry. Type in number between 1 and 9(inclusive)."
+      elsif checkIfTaken(positions, playerMove.to_i)
+        puts "This position is already filled in! Choose another position."
+      
+      else
+        break
+      end
+      print "Enter a number on the field you want to fill: "
+      playerMove = gets.chomp!
+      puts ""
+      
+    end 
+    next if playerMove.downcase == "stop"
+
+    positions[playerMove.to_i - 1] = "O"
+    takenPosCounter += 1
+    puts ""
+    phase = 5
+#----------------------------------------------------------------------
+
+  elsif phase == 7 #phase7 - checking statistics
+
   end  
+#----------------------------------------------------------------------
+  
 end

@@ -10,7 +10,7 @@ def integer_check(num)
   end
 end
 
-def checkIfWon (array, winArray) #check if somebody already won
+def checkIfWon (array, winArray, modeC, po, pt) #check if somebody already won
   countP = 0
   countC = 0
   whoWon = ""
@@ -22,8 +22,10 @@ def checkIfWon (array, winArray) #check if somebody already won
         countC += 1
       end
     }
-    return "You" if countP == 3
-    return "Computer" if countC == 3
+    return "You" if countP == 3 && modeC == 1
+    return "Computer" if countC == 3 && modeC == 1
+    return po if countP == 3 && modeC == 2
+    return pt if countC == 3 && modeC == 2
     countP = countC = 0
   }
   return false
