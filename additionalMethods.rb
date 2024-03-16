@@ -36,3 +36,12 @@ def checkIfTaken(array, num)
     return true
   end
 end
+
+
+def clear_command_line
+  if Gem.win_platform?
+    system "cls"
+  else
+    system "clear"
+  end
+end

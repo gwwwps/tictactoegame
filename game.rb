@@ -68,6 +68,7 @@ while true
     ent = gets
     positions = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     phase = 1
+    clear_command_line
   end
 
 #----------------------------------------------------------------------
@@ -94,7 +95,7 @@ while true
     elsif modeChoose == "3" #stats screen
       phase = 7
     end
-
+    clear_command_line
 #----------------------------------------------------------------------
 
   elsif phase == 2 # phase2 - player's move
@@ -104,6 +105,7 @@ while true
     if playerMove.downcase == "stop"
       phase = 1 
       positions = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+      clear_command_line
     end
     next if playerMove.downcase == "stop"
     
@@ -113,6 +115,7 @@ while true
       if playerMove.downcase == "stop" 
         phase = 1 
         positions = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        clear_command_line
         break
       elsif integer_check(playerMove) == false || playerMove.to_i > 9 || playerMove.to_i < 1
         puts "Invalid entry. Type in number between 1 and 9(inclusive)."
@@ -133,14 +136,14 @@ while true
     takenPosCounter += 1
     puts ""
     phase = 3
-
+    clear_command_line
 #----------------------------------------------------------------------
 
   elsif phase == 3 # phase3 - computer's move
     positions[compAl(positions, winningCombs)] = "O"
     takenPosCounter += 1
     phase = 2
-
+    clear_command_line
 #----------------------------------------------------------------------
 
   elsif phase == 4 # phase4 - to add new player
@@ -157,6 +160,7 @@ while true
     end
     puts "#{namePO} will have X's, #{namePT} will have O's."
     phase = rand(5..6)
+    clear_command_line
 
 #----------------------------------------------------------------------
 
@@ -168,6 +172,7 @@ while true
     if playerMove.downcase == "stop"
       phase = 1 
       positions = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+      clear_command_line
     end
     next if playerMove.downcase == "stop"
     
@@ -177,6 +182,7 @@ while true
       if playerMove.downcase == "stop" 
         phase = 1 
         positions = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        clear_command_line
         break
       elsif integer_check(playerMove) == false || playerMove.to_i > 9 || playerMove.to_i < 1
         puts "Invalid entry. Type in number between 1 and 9(inclusive)."
@@ -197,7 +203,7 @@ while true
     takenPosCounter += 1
     puts ""
     phase = 6
-
+    clear_command_line
 #----------------------------------------------------------------------
 
   elsif phase == 6 #phase6 - player2 move
@@ -208,6 +214,7 @@ while true
     if playerMove.downcase == "stop"
       phase = 1 
       positions = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+      clear_command_line
     end
     next if playerMove.downcase == "stop"
     
@@ -217,6 +224,7 @@ while true
       if playerMove.downcase == "stop" 
         phase = 1 
         positions = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        clear_command_line
         break
       elsif integer_check(playerMove) == false || playerMove.to_i > 9 || playerMove.to_i < 1
         puts "Invalid entry. Type in number between 1 and 9(inclusive)."
@@ -237,6 +245,7 @@ while true
     takenPosCounter += 1
     puts ""
     phase = 5
+    clear_command_line
 #----------------------------------------------------------------------
 
   elsif phase == 7 #phase7 - checking statistics
@@ -253,6 +262,7 @@ while true
     puts "Press enter to come back to main menu."
     backMenu = gets
     phase = 1
+    clear_command_line
   end  
 #----------------------------------------------------------------------
   

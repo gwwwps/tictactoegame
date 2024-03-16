@@ -1,4 +1,5 @@
 require "./player.rb"
+require "./additionalMethods.rb"
 
 print "A"
 nameN = gets.chomp!
@@ -13,3 +14,10 @@ pp ha.name
 ha.seeStats
 ha.changeStats(1)
 ha.seeStats
+
+pp "a"
+c = gets.chomp!
+
+clear_comman_line
+
+pp "b"
